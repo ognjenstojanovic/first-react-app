@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import getProducts from './api/Api';
+import { getProducts, getProductById } from './api/Api';
 import ProductList from './product-list/ProductList';
 import ProductDetails from './product-overview/ProductDetails';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-const products = [
+{/* const products = [
   {id: 1, name: 'Product 1', image: 'http://rs863.pbsrc.com/albums/ab194/Samuelrhys/tweeter_32x32.png~c200', price: 100,
    text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s' },
   {id: 2, name: 'Product 2', image: 'http://rs863.pbsrc.com/albums/ab194/Samuelrhys/tweeter_32x32.png~c200', price: 50,
@@ -13,7 +14,7 @@ const products = [
 ];
 
 const product = {id: 1, name: 'Product 1', image: 'http://rs863.pbsrc.com/albums/ab194/Samuelrhys/tweeter_32x32.png~c200', price: 100,
-text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s' }
+text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s' } */}
 
 class App extends Component {   
   constructor() {
@@ -26,10 +27,14 @@ class App extends Component {
   } 
 
   handleClick() {
-    getProducts().then(products => {
-      this.setState({products: products});
-    });
+      var products = getProducts()
+      this.setState({products});
   }
+
+  handleProductClick() {
+    var products = getProductById(1)
+    console.log(products);
+}
 
   render() {    
     return (
@@ -37,9 +42,18 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
-          <button className="button" onClick={this.handleClick}>Get Products!</button>
         </header>
-        <ProductList products={this.state.products} />
+        <Router>
+          <div>
+            <Link to="/products" onClick={this.handleClick}>Get Products! </Link>
+            
+            <Link to="/details" onClick={this.handleProductClick}> Get Product 1</Link>
+
+          <Route path="/products" Component = { ProductList } />
+          <Route path="/details" Component = { ProductDetails } />
+          </div>
+        </Router>
+       {/* <ProductList products={this.state.products} /> */}
       </div>
     );     
   }

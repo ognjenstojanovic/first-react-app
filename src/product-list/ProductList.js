@@ -2,7 +2,7 @@ import React from 'react';
 import ProductListItem from './ProductListItem';
 
 function ProductList(props) {
-    const products = props.products;
+    const products = this.state.products;
     return (
         <ol>
             {products.map((product) =>

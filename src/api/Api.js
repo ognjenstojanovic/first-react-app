@@ -5,15 +5,15 @@ const delay = (amount) => {
         }, amount)
     })
 }
-
-export default function getProducts() {
-    return delay(2000)
-        .then(_ => {
-            return {
-                data: products
-            }
-        })
+ function getProducts(){
+     return products;
 }
+
+function getProductById(id){
+    return products.find(x => x.id = id);
+}
+
+export { getProductById, getProducts };
 
 const products = [
     {id: 1, name: 'Product 1', image: 'http://rs863.pbsrc.com/albums/ab194/Samuelrhys/tweeter_32x32.png~c200', price: 100 },
