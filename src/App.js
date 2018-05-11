@@ -6,21 +6,23 @@ import ProductList from './product-list/ProductList';
 import ProductDetails from './product-overview/ProductDetails';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-{/* const products = [
+ const products1 = [
   {id: 1, name: 'Product 1', image: 'http://rs863.pbsrc.com/albums/ab194/Samuelrhys/tweeter_32x32.png~c200', price: 100,
    text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s' },
   {id: 2, name: 'Product 2', image: 'http://rs863.pbsrc.com/albums/ab194/Samuelrhys/tweeter_32x32.png~c200', price: 50,
    text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s' }
 ];
 
-const product = {id: 1, name: 'Product 1', image: 'http://rs863.pbsrc.com/albums/ab194/Samuelrhys/tweeter_32x32.png~c200', price: 100,
-text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s' } */}
+const product1 = {id: 1, name: 'Product 1', image: 'http://rs863.pbsrc.com/albums/ab194/Samuelrhys/tweeter_32x32.png~c200', price: 100,
+text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s' } 
 
 class App extends Component {   
   constructor() {
     super();
+   
     this.state = {
-      products: []
+      products: [],
+      product: []
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -28,12 +30,21 @@ class App extends Component {
 
   handleClick() {
       var products = getProducts()
-      this.setState({products});
+      .then((products) => {
+        this.state.products = {products};
+        console.log(this.state.products);
+        console.log(this.state.products.products);
+      })
+      
   }
 
   handleProductClick() {
-    var products = getProductById(1)
-    console.log(products);
+    var product = getProductById(1)
+      .then((product)=> {
+        this.state.product = {product};
+        console.log(this.state.product)
+      })
+   
 }
 
   render() {    
@@ -49,11 +60,11 @@ class App extends Component {
             
             <Link to="/details" onClick={this.handleProductClick}> Get Product 1</Link>
 
-          <Route path="/products" Component = { ProductList } />
-          <Route path="/details" Component = { ProductDetails } />
+          <Route path="/products" render = { (props) => <ProductList products={this.state.products} /> } />
+          <Route path="/details" render = { () => <ProductDetails product={this.state.product} /> } />
           </div>
         </Router>
-       {/* <ProductList products={this.state.products} /> */}
+       {/* <ProductList products={products1} /> */}
       </div>
     );     
   }

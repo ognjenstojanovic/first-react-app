@@ -1,16 +1,18 @@
 import React from 'react';
 
 function ProductListItem(props) {
+    const product = props.product
     return (
-        <li>
-            <img src={props.product.image} alt="" />
+        props.product.map((prod) => 
+        <li key ={ prod.id}>
+            <img src={prod.image} alt="" />
             <span>
-                <p>{props.product.name}</p>
-                <p>{props.product.price}</p>
+                <p>{prod.name}</p>
+                <p>{prod.price}</p>
             </span>
             <hr/>
         </li>
-    )
+    ))
 }
 
 export default ProductListItem;

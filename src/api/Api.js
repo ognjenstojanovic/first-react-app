@@ -5,15 +5,21 @@ const delay = (amount) => {
         }, amount)
     })
 }
- function getProducts(){
-     return products;
+ export const getProducts = () => {
+     return delay(0)
+     .then(_ => {
+         return products;
+     })
 }
 
-function getProductById(id){
-    return products.find(x => x.id = id);
+export const getProductById = (id) => {
+    return delay(0)
+    .then(_ => {
+        console.log(products[0]);
+         var product = products[0];
+            return product;
+    })
 }
-
-export { getProductById, getProducts };
 
 const products = [
     {id: 1, name: 'Product 1', image: 'http://rs863.pbsrc.com/albums/ab194/Samuelrhys/tweeter_32x32.png~c200', price: 100 },

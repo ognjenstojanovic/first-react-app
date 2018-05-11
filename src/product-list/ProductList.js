@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ProductListItem from './ProductListItem';
 
 function ProductList(props) {
-    const products = this.state.products;
+    var products = [];
+    for (var key in props.products){
+        products.push(props.products[key])
+    } 
     return (
         <ol>
             {products.map((product) =>
@@ -11,5 +14,6 @@ function ProductList(props) {
         </ol>
     )
 }
+
 
 export default ProductList;
