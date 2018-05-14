@@ -1,18 +1,22 @@
 import React from 'react';
 
-function ProductListItem(props) {
-    const product = props.product
-    return (
-        props.product.map((prod) => 
-        <li key ={ prod.id}>
+class ProductItem extends React.Component {
+    handleClick = () => {
+        this.props.onClick(this.props.product.id)
+    }
+
+    render () {
+        const props = this.props
+        const prod = props.product
+        return <span key={prod.id} onClick={this.handleClick}>
             <img src={prod.image} alt="" />
             <span>
                 <p>{prod.name}</p>
                 <p>{prod.price}</p>
             </span>
             <hr/>
-        </li>
-    ))
+        </span>
+    }
 }
 
-export default ProductListItem;
+export default ProductItem;
