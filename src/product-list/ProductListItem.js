@@ -5,17 +5,30 @@ class ProductItem extends React.Component {
         this.props.onClick(this.props.product.id)
     }
 
+    handleAddToCart = () => {
+        this.props.onAddToCart(this.props.product)
+    }
+
     render () {
         const props = this.props
         const prod = props.product
-        return <span key={prod.id} onClick={this.handleClick}>
-            <img src={prod.image} alt="" />
-            <span>
-                <p>{prod.name}</p>
-                <p>{prod.price}</p>
+
+
+        const addButton = props.disabled
+            ? null
+            : <button onClick={this.handleAddToCart}>Add to cart</button>
+
+        return <div> 
+            <span key={prod.id} onClick={this.handleClick}>
+                <img src={prod.image} alt="" />
+                <span>
+                    <p>{prod.name}</p>
+                    <p>{prod.price}</p>
+                </span>
             </span>
+            {addButton}                        
             <hr/>
-        </span>
+        </div>
     }
 }
 

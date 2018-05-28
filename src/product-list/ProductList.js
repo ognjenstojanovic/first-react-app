@@ -15,6 +15,7 @@ function ProductList (props) {
                     <ProductItem 
                         product={product} 
                         onClick={props.onProductClick}
+                        onAddToCart={props.onAddToCart}
                     />
                 </li>
             )}
