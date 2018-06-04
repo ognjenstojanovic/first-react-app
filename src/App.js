@@ -19,13 +19,6 @@ const switchFn = (cases, val, def = null) => {
   }
 }
 
-const pageMapping = {
-  'product-list': ProductList,
-  'product-details': ProductDetails,
-  'cart': CartDetails,
-}
-
-
 class App extends Component {
   state = {
     currentPage: 'product-list',
@@ -58,6 +51,7 @@ class App extends Component {
 
   onBack = () => {
     this.setState(state => {
+      console.log('onBack')
       return {
         ...state,
         currentPage: 'product-list'
@@ -67,11 +61,36 @@ class App extends Component {
 
   onAddToCart = (product) => {
     console.log('on Add to Cart', product)
-    this.setState(state => {      
-      return {
-        ...state,
-        cart: [...state.cart, product]
-      }
+    this.setState(state => { 
+      const present = state.cart.findIndex(p => p.id === product.id) !== -1
+      if (present) {
+        // p.quantity++;
+        return {
+          ...state,
+          cart: state.cart.map(p => {
+            if(product.id === p.id) {
+              return {
+                ...p,
+                quantity: p.quantity + 1
+              }
+            } else {
+              return p
+            }
+          })
+        }
+      } else {
+        return {
+          ...state,
+          cart: [
+            ...state.cart, 
+            {
+            'id': product.id,
+            'name': product.name,
+            'quantity': 1
+            }
+          ]
+        }
+      }      
     })
   }
 
@@ -85,10 +104,12 @@ class App extends Component {
   }
 
   onRemoveFromCart = (product) => {
+    console.log('removing product ', product)
     this.setState(state => {
       return {
         ...state,
         cart: state.cart.filter((p) => {
+          console.log('wtf ', p, product)
           return p.id !== product.id
         })
       }
@@ -108,30 +129,42 @@ class App extends Component {
   }
 
   componentWillReceiveProps () {
-    // update state based on new props or trigger some side effect
+    // update state based on new props or trigger some side effect  
   }
 
   componentWillUnmount () {
     // Clean up any listeners etc
   }
 
-  render() {
-    const pagePropsMapping = {
+  render() {    
+
+    const pageMapping = {
       'product-list': {
-        onProductClick: this.handleProductClick,
-        onAddToCart: this.onAddToCart
+        component: ProductList,
+        props: {
+          onProductClick: this.handleProductClick,
+          onAddToCart: this.onAddToCart
+        }
       },
       'product-details': {
-        onBack: this.onBack,
-        onAddToCart: this.onAddToCart
+        component: ProductDetails,
+        props: {
+          onBack: this.onBack,
+          onAddToCart: this.onAddToCart
+        }
       },
-      'cart-details': {
-        cart: this.cart
-      }
+      'cart': {
+        component: CartDetails,
+        props: {
+          cart: this.state.cart,
+          onRemoveFromCart: this.onRemoveFromCart,
+          onBack: this.onBack
+        }
+      },
     }
 
-    const CurrentPage = switchFn(pageMapping, this.state.currentPage)
-    const pageProps = switchFn(pagePropsMapping, this.state.currentPage)
+    const CurrentPage = switchFn(pageMapping, this.state.currentPage).component
+    const pageProps = switchFn(pageMapping, this.state.currentPage).props
 
     console.log(pageProps)
 
