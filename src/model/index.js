@@ -26,12 +26,12 @@ export const actions = {
 
 export const reducer = function (state = initialState, action) {
     switch(action.type) {
-        case INCREMENT:
+        case types.INCREMENT:
             return {
                 ...state,
                 count: state.count + 1
             }
-        case DECREMENT:
+        case types.DECREMENT:
             return {
                 ...state,
                 count: state.count - 1

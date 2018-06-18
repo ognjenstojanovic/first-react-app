@@ -31,6 +31,8 @@ class App extends Component {
   handleProductClick = (productId) => {
     console.log('clicked on product id ', productId)
 
+    // this.props.dispatch(actions.clickedOnProduct(productId))
+
     this.setState(state => {
       return {
         ...state,
