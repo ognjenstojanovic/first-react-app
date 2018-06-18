@@ -11,6 +11,8 @@ import ProductDetails from './product-overview/ProductDetails';
 import Cart from './cart/Cart'
 import CartDetails from "./cart/CartDetails"
 
+import {actions} from './model'
+
 
 const switchFn = (cases, val, def = null) => {
   if (val in cases) {
@@ -30,26 +32,7 @@ class App extends Component {
 
   handleProductClick = (productId) => {
     console.log('clicked on product id ', productId)
-
-    // this.props.dispatch(actions.clickedOnProduct(productId))
-
-    this.setState(state => {
-      return {
-        ...state,
-        currentPage: 'product-details'
-      }
-    })
-
-    getProductById(productId)
-    .then(product => {
-      this.setState(state => {
-        return {
-          ...state,
-          product,
-          currentPage: 'product-details'
-        }
-      })
-    })
+    this.props.dispatch(actions.clickedOnProduct(productId))
   }
 
   onBack = () => {
@@ -166,8 +149,8 @@ class App extends Component {
       },
     }
 
-    const CurrentPage = switchFn(pageMapping, this.state.currentPage).component
-    const pageProps = switchFn(pageMapping, this.state.currentPage).props
+    const CurrentPage = switchFn(pageMapping, this.props.currentPage).component
+    const pageProps = switchFn(pageMapping, this.props.currentPage).props
 
     console.log(pageProps)
 

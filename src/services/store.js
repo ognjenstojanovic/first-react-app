@@ -1,6 +1,8 @@
-import { createStore as realCreateStore, applyMiddleware } from 'redux'
+import { createStore as realCreateStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleWare from 'redux-thunk'
 import {createLogger} from 'redux-logger'
+import { composeWithDevTools } from 'redux-devtools-extension'
+
 
 const middleware = [
 	thunkMiddleWare,
@@ -11,10 +13,12 @@ const middleware = [
 
 export function createStore(reducer, initialState) {
 	return realCreateStore(
-		reducer,
-		initialState,
-		applyMiddleware(
-			...middleware.filter(m => m != null)
-		)
+        reducer,
+        initialState,
+        composeWithDevTools(
+            applyMiddleware(
+                ...middleware.filter(m => m != null)
+            )
+        )
 	)
 }

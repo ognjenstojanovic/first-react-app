@@ -1,40 +1,59 @@
+import { 
+    // getProducts, 
+    getProductById,
+  } from '../services/products'
+
+
 export const initialState = {
-    count: 0
+    currentPage: 'product-list',
+    products: null,
+    product: null,
+    cart: [],
 }
 
 
 export const types = {
-    INCREMENT: 'counter/INCREMENT',
-    DECREMENT: 'counter/DECREMENT',
+    CLICKED_ON_PRODUCT: 'shop/CLICKED_ON_PRODUCT',
+    LOAD_PRODUCT_SUCCESS: 'shop/LOAD_PRODUCT_SUCCESS',
 }
 
 
 export const actions = {
-    increment: (amount) => {
-        return {
-            type: types.INCREMENT,
-            payload: amount
+    clickedOnProduct: (productId) => {
+        return dispatch => {
+            dispatch({
+                type: types.CLICKED_ON_PRODUCT,
+                payload: productId
+            })
+            getProductById(productId)
+                .then(product => {
+                    dispatch(actions.loadProductSuccess(product))
+                })
         }
     },
-    decrement: () => {
+    loadProductSuccess: product => {
         return {
-            type: types.DECREMENT
+            type: types.LOAD_PRODUCT_SUCCESS,
+            payload: product
         }
-    },
+    }
 }
+
+
 
 
 export const reducer = function (state = initialState, action) {
     switch(action.type) {
-        case types.INCREMENT:
+        case types.CLICKED_ON_PRODUCT:
             return {
                 ...state,
-                count: state.count + 1
+                currentPage: 'product-details'
             }
-        case types.DECREMENT:
+        case types.LOAD_PRODUCT_SUCCESS:
             return {
                 ...state,
-                count: state.count - 1
+                currentPage: 'product-details',
+                product: action.payload
             }
         default:
             return state

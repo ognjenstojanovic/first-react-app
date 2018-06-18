@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux'
 
 function ProductDetails(props) {
     if (props.product == null) {
@@ -17,4 +18,8 @@ function ProductDetails(props) {
     )
 }
 
-export default ProductDetails;
+export default connect(state => {
+    return {
+        product: state.product
+    }
+})(ProductDetails);
